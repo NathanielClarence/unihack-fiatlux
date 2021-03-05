@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Image, Text } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
 
 const Card = ({ imageSource, text }) => (
     <Box

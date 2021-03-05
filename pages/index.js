@@ -5,7 +5,7 @@ import {
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
     Flex, Spacer, Image, Center, Text
 } from '@chakra-ui/react';
-import { DownloadIcon, RepeatIcon } from '@chakra-ui/icons';
+import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
@@ -68,6 +68,9 @@ export default function Home({ apiUrl }) {
                 <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Center>
                         <Text fontSize="lg" fontWeight="bold">Slides</Text>
+                    </Center>
+                    <Center m="4px">
+                        <Button leftIcon={<AddIcon />} size="sm">Add Slide</Button>
                     </Center>
                     <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 1" />
                     <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 2" />
