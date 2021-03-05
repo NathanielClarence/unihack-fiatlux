@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Flex, Spacer, Center, Text, Select,
+    Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
 } from '@chakra-ui/react';
 import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
 
@@ -61,7 +61,7 @@ export default function Home({ apiUrl }) {
     const [colNumber, setColNumber] = useState(1);
     const [tableData, setTableData] = useState([[1]]);
     // List
-    const [listElement, setListElement] = useState(3);
+    // const [listElement, setListElement] = useState(3);
 
     const handleSubmit = (event) => {
         // alert(JSON.stringify({test: 'Test'}));
@@ -117,28 +117,36 @@ export default function Home({ apiUrl }) {
                     <Card imageSource={imageSource} text="Slide 1" />
                 </Box>
                 {/* MIDDLE - SLIDES DATA */}
-                <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
+                <Box w={2 / 3} p={8} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     {/* Title Component */}
-                    <Input
-                        label="Title"
-                        type="text"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
+                    <FormControl>
+                        <FormLabel>Title</FormLabel>
+                        <Input
+                            label="Title"
+                            type="text"
+                            placeholder="Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </FormControl>
                     {/* Slide Type Component */}
-                    <Select
-                        value={slideType}
-                        onChange={(event) => setSlideType(event.target.value)}
-                    >
-                        <option value="TABLE">Table</option>
-                        <option value="LIST">List</option>
-                    </Select>
+                    <Box marginTop="16px">
+                        <FormControl>
+                            <FormLabel>Slide Type</FormLabel>
+                            <Select
+                                value={slideType}
+                                onChange={(event) => setSlideType(event.target.value)}
+                            >
+                                <option value="TABLE">Table</option>
+                                <option value="LIST">List</option>
+                            </Select>
+                        </FormControl>
+                    </Box>
                     {/* Table Components (Start) */}
                     <Box>
                         <HStack>
                             <Box w="100%" fontWeight="semibold">
-                                Table
+                                Data
                             </Box>
                             <VStack>
                                 <Box>
@@ -165,7 +173,6 @@ export default function Home({ apiUrl }) {
                             </VStack>
                         </HStack>
                         <Table variant="striped" colorScheme="teal" size="md">
-                            <TableCaption>Customise your table</TableCaption>
                             <Thead>
                                 <Tr>
                                     <Th></Th>
@@ -190,7 +197,7 @@ export default function Home({ apiUrl }) {
                     </Box>
                     {/* Table Component (End) */}
                     {/* List Component (Start) */}
-                    <Box>
+                    {/* <Box>
                         <HStack spacing="200px">
                             <Box fontWeight="semibold">
                                 List
@@ -218,7 +225,7 @@ export default function Home({ apiUrl }) {
                     </Box>
                     <Box p={4}>
                         {createList(listElement)}
-                    </Box>
+                    </Box> */}
                     {/* List Component (End) */}
                 </Box>
                 {/* RIGHT SIDE - PREVIEW */}
