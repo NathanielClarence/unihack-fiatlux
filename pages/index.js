@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box, useToast,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Flex, Spacer, Image,
+    Flex, Spacer, Image, Center,
 } from '@chakra-ui/react';
 import { DownloadIcon } from '@chakra-ui/icons';
 import AwesomeSlider from 'react-awesome-slider';
@@ -162,7 +162,6 @@ export default function Home({ apiUrl }) {
                             </VStack>
                         </HStack>
                     </Box>
-                    {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
                 </Box>
                 <Box w={2 / 6} p={4}>
                     <AwesomeSlider
@@ -171,6 +170,11 @@ export default function Home({ apiUrl }) {
                             { source: 'https://bit.ly/sage-adebayo' },
                         ]}
                     />
+                    <Center>
+                        <Box p={16}>
+                            {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
+                        </Box>
+                    </Center>
                 </Box>
             </Flex>
         </form>
