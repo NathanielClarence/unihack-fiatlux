@@ -1,2 +1,2 @@
-export { default as InputField } from './InputField';
-export { default as Dropdown } from './Dropdown';
+export { default as EditValue } from './EditValue';
+export { default as InputNumber } from './InputNumber';

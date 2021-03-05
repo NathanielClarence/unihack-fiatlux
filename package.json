@@ -21,7 +21,9 @@
     "next": "10.0.7",
     "pptxgenjs": "^3.4.0",
     "react": "17.0.1",
+    "react-awesome-slider": "^4.1.0",
     "react-dom": "17.0.1",
+    "react-simple-image-slider": "^2.0.3",
     "swr": "^0.4.1",
     "uuid": "^8.3.2",
     "yup": "^0.32.8"
