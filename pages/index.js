@@ -58,15 +58,13 @@ export default function Home({ apiUrl }) {
                 </Box>
             </Flex>
             <Flex>
-                <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" maxHeight="100vh">
-                    <Image src="https://bit.ly/sage-adebayo" />
-                    <Image src="https://bit.ly/sage-adebayo" />
+                <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Image src="https://bit.ly/sage-adebayo" />
                     <Image src="https://bit.ly/sage-adebayo" />
                     <Image src="https://bit.ly/sage-adebayo" />
                     <Image src="https://bit.ly/sage-adebayo" />
                 </Box>
-                <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" maxHeight="100vh">
+                <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Input
                         label="First Name"
                         type="text"
