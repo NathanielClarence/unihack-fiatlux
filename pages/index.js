@@ -1,9 +1,9 @@
 // UI Library Components
 import React, { useState } from 'react';
 import {
-    Button, Heading, VStack, HStack, Box, useToast,
+    Button, Heading, VStack, HStack, Box,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Flex, Spacer, Image, Center, Text
+    Flex, Spacer, Center, Text, Select,
 } from '@chakra-ui/react';
 import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
 
@@ -52,21 +52,23 @@ function createList(numElements) {
 }
 
 export default function Home({ apiUrl }) {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [fileName, setFileName] = useState('');
+    const [imageSource, setImageSource] = useState('https://bit.ly/sage-adebayo');
+    const [title, setTitle] = useState('');
+    const [slideType, setSlideType] = useState('TABLE');
+    // Table
     const [rowNumber, setRowNumber] = useState(1);
     const [colNumber, setColNumber] = useState(1);
+    const [tableData, setTableData] = useState([[1]]);
+    // List
     const [listElement, setListElement] = useState(3);
-    const [tableData, setTableData] = useState([[1,2,3,4,5], [6,7,8,9,10]]);
 
     const handleSubmit = (event) => {
         // alert(JSON.stringify({test: 'Test'}));
         event.preventDefault();
         // const toast = useToast();
         const values = {
-            firstName,
-            lastName,
+            title,
         };
         axios.post(`${apiUrl}/pptx`, values)
             .then((response) => {
@@ -86,6 +88,7 @@ export default function Home({ apiUrl }) {
 
     return (
         <form onSubmit={handleSubmit}>
+            {/* HEADER SECTION */}
             <Flex borderBottom="1px" borderBottomColor="gray.200">
                 <Box p={4}>
                     <Heading>Fiat Lux</Heading>
@@ -101,34 +104,37 @@ export default function Home({ apiUrl }) {
                     </Button>
                 </Box>
             </Flex>
+            {/* BODY SECTION */}
             <Flex>
+                {/* LEFT SIDE - LIST OF SLIDES */}
                 <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Center>
                         <Text fontSize="lg" fontWeight="bold">Slides</Text>
                     </Center>
                     <Center m="4px">
-                        <Button leftIcon={<AddIcon />} size="sm">Add Slide</Button>
+                        <Button leftIcon={<AddIcon />} size="sm" isDisabled>Add Slide</Button>
                     </Center>
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 1" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 2" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 3" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 4" />
+                    <Card imageSource={imageSource} text="Slide 1" />
                 </Box>
+                {/* MIDDLE - SLIDES DATA */}
                 <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
+                    {/* Title Component */}
                     <Input
-                        label="First Name"
+                        label="Title"
                         type="text"
-                        placeholder="Albert"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
-                    <Input
-                        label="Last Name"
-                        type="text"
-                        placeholder="Darmawan"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
+                    {/* Slide Type Component */}
+                    <Select
+                        value={slideType}
+                        onChange={(event) => setSlideType(event.target.value)}
+                    >
+                        <option value="TABLE">Table</option>
+                        <option value="LIST">List</option>
+                    </Select>
+                    {/* Table Components (Start) */}
                     <Box>
                         <HStack>
                             <Box w="100%" fontWeight="semibold">
@@ -158,7 +164,7 @@ export default function Home({ apiUrl }) {
 
                             </VStack>
                         </HStack>
-                        {/* <Table variant="striped" colorScheme="teal" size="md">
+                        <Table variant="striped" colorScheme="teal" size="md">
                             <TableCaption>Customise your table</TableCaption>
                             <Thead>
                                 <Tr>
@@ -180,8 +186,10 @@ export default function Home({ apiUrl }) {
                                     </Tr>
                                 ))}
                             </Tbody>
-                        </Table> */}
+                        </Table>
                     </Box>
+                    {/* Table Component (End) */}
+                    {/* List Component (Start) */}
                     <Box>
                         <HStack spacing="200px">
                             <Box fontWeight="semibold">
@@ -211,13 +219,14 @@ export default function Home({ apiUrl }) {
                     <Box p={4}>
                         {createList(listElement)}
                     </Box>
-
+                    {/* List Component (End) */}
                 </Box>
+                {/* RIGHT SIDE - PREVIEW */}
                 <Box w={2 / 6} p={4}>
                     <Center>
                         <Text fontSize="lg" fontWeight="bold">Preview</Text>
                     </Center>
-                    <ImageSlider images={['https://bit.ly/sage-adebayo', 'https://bit.ly/dan-abramov', 'https://bit.ly/sage-adebayo']} />
+                    <ImageSlider images={[imageSource]} />
                     <Center>
                         <Box p={16}>
                             {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}

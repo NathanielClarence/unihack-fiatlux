@@ -9,14 +9,14 @@ export default (req, res) => {
         const pptx = new Pptxgen();
 
         // pptxgen metadata
-        pptx.author = 'Albert Darmawan';
+        pptx.author = 'Sample Author';
         pptx.company = 'University of Melbourne';
         pptx.revision = '1';
-        pptx.subject = 'Annual Report';
-        pptx.title = 'PptxGenJS Sample Presentation';
+        pptx.subject = 'Sample Presentation';
+        pptx.title = 'Sample Presentation';
 
         const slide = pptx.addSlide();
-        const textboxText = `${req.body.firstName} ${req.body.lastName}`;
+        const textboxText = `${req.body.title}`;
         const textboxOpts = {
             x: 1, y: 1, color: '363636', fill: { color: 'F1F1F1' }, align: pptx.AlignH.center,
         };
