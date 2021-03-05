@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box, useToast,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Flex, Spacer, Image, Center,
+    Flex, Spacer, Image, Center, Text
 } from '@chakra-ui/react';
 import { DownloadIcon, RepeatIcon } from '@chakra-ui/icons';
 
@@ -12,7 +12,7 @@ import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, InputNumber, ImageSlider } from '../components';
+import { EditValue, InputNumber, ImageSlider, Card } from '../components';
 
 export default function Home({ apiUrl }) {
     const [firstName, setFirstName] = useState('');
@@ -66,10 +66,13 @@ export default function Home({ apiUrl }) {
             </Flex>
             <Flex>
                 <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
-                    <Image src="https://bit.ly/sage-adebayo" />
-                    <Image src="https://bit.ly/sage-adebayo" />
-                    <Image src="https://bit.ly/sage-adebayo" />
-                    <Image src="https://bit.ly/sage-adebayo" />
+                    <Center>
+                        <Text fontSize="lg" fontWeight="bold">Slides</Text>
+                    </Center>
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 1" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 2" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 3" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 4" />
                 </Box>
                 <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Input
@@ -167,6 +170,9 @@ export default function Home({ apiUrl }) {
                     </Box>
                 </Box>
                 <Box w={2 / 6} p={4}>
+                    <Center>
+                        <Text fontSize="lg" fontWeight="bold">Preview</Text>
+                    </Center>
                     <ImageSlider images={['https://bit.ly/sage-adebayo', 'https://bit.ly/dan-abramov', 'https://bit.ly/sage-adebayo']} />
                     <Center>
                         <Box p={16}>
