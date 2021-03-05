@@ -57,11 +57,20 @@ export default function Home({ apiUrl }) {
     const [title, setTitle] = useState('');
     const [slideType, setSlideType] = useState('TABLE');
     // Table
-    const [rowNumber, setRowNumber] = useState(1);
-    const [colNumber, setColNumber] = useState(1);
-    const [tableData, setTableData] = useState([[1]]);
+    const [rowNumber, setRowNumber] = useState(3);
+    const [colNumber, setColNumber] = useState(3);
+    const [tableData, setTableData] = useState([['', '', ''], ['', '', '']]);
     // List
     // const [listElement, setListElement] = useState(3);
+
+    const handleTableDataChange = (newValue, indexRow, indexCol) => {
+        setTableData((prevState) => {
+            const newState = [...prevState];
+            newState[indexRow][indexCol] = newValue;
+            return newState;
+        });
+        console.log(tableData);
+    };
 
     const handleSubmit = (event) => {
         // alert(JSON.stringify({test: 'Test'}));
@@ -172,12 +181,7 @@ export default function Home({ apiUrl }) {
 
                             </VStack>
                         </HStack>
-                        <Table variant="striped" colorScheme="teal" size="md">
-                            <Thead>
-                                <Tr>
-                                    <Th></Th>
-                                </Tr>
-                            </Thead>
+                        <Table variant="simple" size="md">
                             <Tbody>
                                 {tableData.map((itemRow, indexRow) => (
                                     <Tr>
@@ -185,7 +189,8 @@ export default function Home({ apiUrl }) {
                                             tableData[indexRow].map((itemCol, indexCol) => (
                                                 <Td>
                                                     <EditValue
-                                                        initValue="Value"
+                                                        value={tableData[indexRow][indexCol]}
+                                                        onChange={(newValue) => handleTableDataChange(newValue, indexRow, indexCol)}
                                                     />
                                                 </Td>
                                             ))
