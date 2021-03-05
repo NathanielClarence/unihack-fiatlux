@@ -2,165 +2,189 @@
 import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box, useToast,
-    NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Editable, EditableInput, EditablePreview, Flex, IconButton, ButtonGroup,
+    Flex, Spacer, Image, Center, Text
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon, DownloadIcon } from '@chakra-ui/icons';
+import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, InputNumber } from '../components';
+import { EditValue, InputNumber, ImageSlider, Card } from '../components';
 
 export default function Home({ apiUrl }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-
-    const handleSubmit = (event) => {
-        alert(JSON.stringify({test: firstName}));
-        // const toast = useToast();
-        // const values = {
-        //     test: 'Test'
-        // }
-        // axios.post(`${apiUrl}/pptx`, values)
-        //     .then((response) => {
-        //         setFileName(response.data.fileName);
-        //         toast({
-        //             title: 'PPTX generated!',
-        //             description: `${response.data.fileName} has been successfully generated`,
-        //             status: 'success',
-        //             duration: 5000,
-        //             isClosable: true,
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
-        event.preventDefault();
-    }
-
     const [fileName, setFileName] = useState('');
     const [rowNumber, setRowNumber] = useState(1);
     const [colNumber, setColNumber] = useState(1);
     const [listNumber, setListNumber] = useState(3);
     const [tableData, setTableData] = useState([[1,2,3,4,5], [6,7,8,9,10]]);
-    return (
-        <VStack spacing="16px">
-            <Heading>Fiat Lux</Heading>
-            <form onSubmit={handleSubmit}>
-                <Input
-                    label="First Name"
-                    type="text"
-                    placeholder="Albert"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <Input
-                    label="Last Name"
-                    type="text"
-                    placeholder="Darmawan"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
-                <Box>
-                    <HStack>
-                        <Box w="100%" fontWeight="semibold">
-                            Table
-                        </Box>
-                        <VStack>
-                            <Box>
-                                <h3>Row</h3>
-                            </Box>
-                            <InputNumber
-                                value={rowNumber}
-                                onChange={(value) => setRowNumber(value)}
-                                min={1}
-                                max={20}
-                            />
-                        </VStack>
-                        <VStack>
-                            <Box>
-                                <h3>Column</h3>
-                            </Box>
-                            <InputNumber
-                                value={colNumber}
-                                onChange={(value) => setColNumber(value)}
-                                min={1}
-                                max={20}
-                            />
 
-                        </VStack>
-                    </HStack>
-                    {/* <Box p={4}>
-                        {editValue()}
-                    </Box> */}
-                    <Table variant="striped" colorScheme="teal" size="md">
-                        <TableCaption>Customise your table</TableCaption>
-                        <Thead>
-                            <Tr>
-                                <Th>
-                                </Th>
-                                <Th>
-                                </Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {tableData.map((itemRow, indexRow) => {
-                                return (
+    const handleSubmit = (event) => {
+        // alert(JSON.stringify({test: 'Test'}));
+        event.preventDefault();
+        // const toast = useToast();
+        const values = {
+            firstName,
+            lastName,
+        };
+        axios.post(`${apiUrl}/pptx`, values)
+            .then((response) => {
+                setFileName(response.data.fileName);
+                // toast({
+                //     title: 'PPTX generated!',
+                //     description: `${response.data.fileName} has been successfully generated`,
+                //     status: 'success',
+                //     duration: 5000,
+                //     isClosable: true,
+                // });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Flex borderBottom="1px" borderBottomColor="gray.200">
+                <Box p={4}>
+                    <Heading>Fiat Lux</Heading>
+                </Box>
+                <Spacer />
+                <Box p={4}>
+                    <Button
+                        colorScheme="blue"
+                        type="submit"
+                        rightIcon={<RepeatIcon />}
+                    >
+                        Generate PPTX
+                    </Button>
+                </Box>
+            </Flex>
+            <Flex>
+                <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
+                    <Center>
+                        <Text fontSize="lg" fontWeight="bold">Slides</Text>
+                    </Center>
+                    <Center m="4px">
+                        <Button leftIcon={<AddIcon />} size="sm">Add Slide</Button>
+                    </Center>
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 1" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 2" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 3" />
+                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 4" />
+                </Box>
+                <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
+                    <Input
+                        label="First Name"
+                        type="text"
+                        placeholder="Albert"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <Input
+                        label="Last Name"
+                        type="text"
+                        placeholder="Darmawan"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                    <Box>
+                        <HStack>
+                            <Box w="100%" fontWeight="semibold">
+                                Table
+                            </Box>
+                            <VStack>
+                                <Box>
+                                    <h3>Row</h3>
+                                </Box>
+                                <InputNumber
+                                    value={rowNumber}
+                                    onChange={(value) => setRowNumber(value)}
+                                    min={1}
+                                    max={20}
+                                />
+                            </VStack>
+                            <VStack>
+                                <Box>
+                                    <h3>Column</h3>
+                                </Box>
+                                <InputNumber
+                                    value={colNumber}
+                                    onChange={(value) => setColNumber(value)}
+                                    min={1}
+                                    max={20}
+                                />
+
+                            </VStack>
+                        </HStack>
+                        {/* <Table variant="striped" colorScheme="teal" size="md">
+                            <TableCaption>Customise your table</TableCaption>
+                            <Thead>
+                                <Tr>
+                                    <Th></Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {tableData.map((itemRow, indexRow) => (
                                     <Tr>
                                         {
-                                            tableData[indexRow].map((itemCol, indexCol) => {
-                                                return (
+                                            tableData[indexRow].map((itemCol, indexCol) => (
                                                 <Td>
-                                                    {/* {itemCol} */}
-                                                    {/* {editValue()} */}
-                                                    <EditValue 
+                                                    <EditValue
                                                         initValue="Value"
                                                     />
-                                                </Td>)
-                                            })
+                                                </Td>
+                                            ))
                                         }
                                     </Tr>
-                                )
-                            })}
-                        </Tbody>
-                    </Table>
+                                ))}
+                            </Tbody>
+                        </Table> */}
+                    </Box>
+                    <Box>
+                        <HStack spacing="200px">
+                            <Box fontWeight="semibold">
+                                List
+                            </Box>
+                            <VStack>
+                                <Box w="100%" fontWeight="semibold">
+                                    Title:
+                                </Box>
+                                <EditValue
+                                    initValue="Insert title here"
+                                />
+                            </VStack>
+                            <VStack>
+                                <Box w="100%" fontWeight="semibold">
+                                    Number of Element:
+                                </Box>
+                                <InputNumber
+                                    value={listNumber}
+                                    onChange={(value) => setListNumber(value)}
+                                    min={3}
+                                    max={5}
+                                />
+                            </VStack>
+                        </HStack>
+                    </Box>
                 </Box>
-                <Box>
-                    <HStack spacing="200px">
-                        <Box fontWeight="semibold">
-                            List
+                <Box w={2 / 6} p={4}>
+                    <Center>
+                        <Text fontSize="lg" fontWeight="bold">Preview</Text>
+                    </Center>
+                    <ImageSlider images={['https://bit.ly/sage-adebayo', 'https://bit.ly/dan-abramov', 'https://bit.ly/sage-adebayo']} />
+                    <Center>
+                        <Box p={16}>
+                            {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
                         </Box>
-                        <VStack>
-                            <Box w="100%" fontWeight="semibold">
-                                Title:
-                            </Box>
-                            <EditValue
-                                initValue="Insert title here"
-                            />
-                        </VStack>
-                        <VStack>
-                            <Box w="100%" fontWeight="semibold">
-                                Number of Element:
-                            </Box>
-                            <InputNumber
-                                value={listNumber}
-                                onChange={(value) => setListNumber(value)}
-                                min={3}
-                                max={5}
-                            />
-                        </VStack>
-                    </HStack>
+                    </Center>
                 </Box>
-                <Box m="24px" align="center">
-                    <Button colorScheme="blue" type="submit">Generate PPTX</Button>
-                </Box>
-            </form>
-            {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
-        </VStack>
+            </Flex>
+        </form>
     );
 }
 
