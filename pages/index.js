@@ -6,15 +6,13 @@ import {
     Flex, Spacer, Image, Center,
 } from '@chakra-ui/react';
 import { DownloadIcon } from '@chakra-ui/icons';
-import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/styles.css';
 
 // HTTP Request
 import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, InputNumber } from '../components';
+import { EditValue, InputNumber, ImageSlider } from '../components';
 
 export default function Home({ apiUrl }) {
     const [firstName, setFirstName] = useState('');
@@ -164,12 +162,7 @@ export default function Home({ apiUrl }) {
                     </Box>
                 </Box>
                 <Box w={2 / 6} p={4}>
-                    <AwesomeSlider
-                        media={[
-                            { source: 'https://bit.ly/sage-adebayo' },
-                            { source: 'https://bit.ly/sage-adebayo' },
-                        ]}
-                    />
+                    <ImageSlider images={['https://bit.ly/sage-adebayo', 'https://bit.ly/dan-abramov', 'https://bit.ly/sage-adebayo']} />
                     <Center>
                         <Box p={16}>
                             {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
