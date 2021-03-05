@@ -1,5 +1,6 @@
 // UI Library Components
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
     Button, Heading, VStack, HStack, Box, useToast,
     NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper,
@@ -14,6 +15,43 @@ import handleDownload from '../utils/handleDownload';
 
 // Custom Components
 import { EditValue, InputNumber } from '../components';
+
+function createList(numElements) {
+    const parseNumEl = parseInt(numElements);
+    const arr = new Array(parseNumEl);
+    let i;
+    for (i = 0; i < parseNumEl; i += 1) {
+        arr[i] = parseNumEl;
+    }
+    return arr.map((element, index) => (
+        <Box p={2}>
+            <VStack>
+                <HStack>
+                    <VStack>
+                        <Box fontWeight="semibold">
+                            <h3>
+                                {`Heading ${index + 1}`}
+                            </h3>
+                        </Box>
+                        <EditValue
+                            initValue="Insert text here"
+                        />
+                    </VStack>
+                    <VStack>
+                        <Box fontWeight="semibold">
+                            <h3>
+                                {`Content ${index + 1}`}
+                            </h3>
+                        </Box>
+                        <EditValue
+                            initValue="Insert text here"
+                        />
+                    </VStack>
+                </HStack>
+            </VStack>
+        </Box>
+    ));
+}
 
 export default function Home({ apiUrl }) {
     const [firstName, setFirstName] = useState('');
@@ -45,7 +83,7 @@ export default function Home({ apiUrl }) {
     const [fileName, setFileName] = useState('');
     const [rowNumber, setRowNumber] = useState(1);
     const [colNumber, setColNumber] = useState(1);
-    const [listNumber, setListNumber] = useState(3);
+    const [listElement, setListElement] = useState(3);
     const [tableData, setTableData] = useState([[1,2,3,4,5], [6,7,8,9,10]]);
     return (
         <VStack spacing="16px">
@@ -147,13 +185,16 @@ export default function Home({ apiUrl }) {
                                 Number of Element:
                             </Box>
                             <InputNumber
-                                value={listNumber}
-                                onChange={(value) => setListNumber(value)}
+                                value={listElement}
+                                onChange={(value) => setListElement(value)}
                                 min={3}
                                 max={5}
                             />
                         </VStack>
                     </HStack>
+                </Box>
+                <Box p={4}>
+                    {createList(listElement)}
                 </Box>
                 <Box m="24px" align="center">
                     <Button colorScheme="blue" type="submit">Generate PPTX</Button>
