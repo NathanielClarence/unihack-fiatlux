@@ -9,12 +9,18 @@ export default (req, res) => {
         const pptx = new Pptxgen();
 
         // pptxgen metadata
-        const metadata = req.body;
-        pptx.author = metadata.author;
-        pptx.company = metadata.company;
-        pptx.revision = metadata.revision;
-        pptx.subject = metadata.subject;
-        pptx.title = metadata.title;
+        pptx.author = 'Albert Darmawan';
+        pptx.company = 'University of Melbourne';
+        pptx.revision = '1';
+        pptx.subject = 'Annual Report';
+        pptx.title = 'PptxGenJS Sample Presentation';
+
+        const slide = pptx.addSlide();
+        const textboxText = `${req.body.firstName} ${req.body.lastName}`;
+        const textboxOpts = {
+            x: 1, y: 1, color: '363636', fill: { color: 'F1F1F1' }, align: pptx.AlignH.center,
+        };
+        slide.addText(textboxText, textboxOpts);
 
         // Initialize Firebase Admin instance
         const rootDirectory = process.cwd();

@@ -5,7 +5,7 @@ import {
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
     Flex, Spacer, Image, Center,
 } from '@chakra-ui/react';
-import { DownloadIcon } from '@chakra-ui/icons';
+import { DownloadIcon, RepeatIcon } from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
@@ -24,26 +24,27 @@ export default function Home({ apiUrl }) {
     const [tableData, setTableData] = useState([[1,2,3,4,5], [6,7,8,9,10]]);
 
     const handleSubmit = (event) => {
-        alert(JSON.stringify({test: 'Test'}));
-        // const toast = useToast();
-        // const values = {
-        //     test: 'Test',
-        // };
-        // axios.post(`${apiUrl}/pptx`, values)
-        //     .then((response) => {
-        //         setFileName(response.data.fileName);
-        //         toast({
-        //             title: 'PPTX generated!',
-        //             description: `${response.data.fileName} has been successfully generated`,
-        //             status: 'success',
-        //             duration: 5000,
-        //             isClosable: true,
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        // alert(JSON.stringify({test: 'Test'}));
         event.preventDefault();
+        // const toast = useToast();
+        const values = {
+            firstName,
+            lastName,
+        };
+        axios.post(`${apiUrl}/pptx`, values)
+            .then((response) => {
+                setFileName(response.data.fileName);
+                // toast({
+                //     title: 'PPTX generated!',
+                //     description: `${response.data.fileName} has been successfully generated`,
+                //     status: 'success',
+                //     duration: 5000,
+                //     isClosable: true,
+                // });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -54,7 +55,13 @@ export default function Home({ apiUrl }) {
                 </Box>
                 <Spacer />
                 <Box p={4}>
-                    <Button colorScheme="blue" type="submit">Generate PPTX</Button>
+                    <Button
+                        colorScheme="blue"
+                        type="submit"
+                        rightIcon={<RepeatIcon />}
+                    >
+                        Generate PPTX
+                    </Button>
                 </Box>
             </Flex>
             <Flex>
@@ -108,7 +115,7 @@ export default function Home({ apiUrl }) {
 
                             </VStack>
                         </HStack>
-                        <Table variant="striped" colorScheme="teal" size="md">
+                        {/* <Table variant="striped" colorScheme="teal" size="md">
                             <TableCaption>Customise your table</TableCaption>
                             <Thead>
                                 <Tr>
@@ -130,7 +137,7 @@ export default function Home({ apiUrl }) {
                                     </Tr>
                                 ))}
                             </Tbody>
-                        </Table>
+                        </Table> */}
                     </Box>
                     <Box>
                         <HStack spacing="200px">
