@@ -14,7 +14,7 @@ import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, ImageSlider, Card } from '../components';
+import { ImageSlider, Card } from '../components';
 
 const ICONS_URL = {
     publicLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011593/baseline_public_white_48dp_zesoji.png',
@@ -32,43 +32,6 @@ const ICONS_URL = {
     paymentLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011028/baseline_payment_white_48dp_h2vujo.png',
     paymentDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615010867/baseline_payment_black_48dp_yg02x5.png',
 };
-
-function createList(numElements) {
-    const parseNumEl = parseInt(numElements);
-    const arr = new Array(parseNumEl);
-    let i;
-    for (i = 0; i < parseNumEl; i += 1) {
-        arr[i] = parseNumEl;
-    }
-    return arr.map((element, index) => (
-        <Box p={2} key={element.toString()}>
-            <VStack>
-                <HStack>
-                    <VStack>
-                        <Box fontWeight="semibold">
-                            <h3>
-                                {`Heading ${index + 1}`}
-                            </h3>
-                        </Box>
-                        <EditValue
-                            initValue="Insert text here"
-                        />
-                    </VStack>
-                    <VStack>
-                        <Box fontWeight="semibold">
-                            <h3>
-                                {`Content ${index + 1}`}
-                            </h3>
-                        </Box>
-                        <EditValue
-                            initValue="Insert text here"
-                        />
-                    </VStack>
-                </HStack>
-            </VStack>
-        </Box>
-    ));
-}
 
 export default function Home({ apiUrl }) {
     const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -108,12 +71,12 @@ export default function Home({ apiUrl }) {
         {
             activityName: 'Activity 1',
             period: false, // default false
-            startPeriod: 1, // From 1 to 12
+            startPeriod: '', // From 1 to 12
             endPeriod: '',
             event: false,
             eventPeriod: '0', // between startPeriod, endPeriod
             eventName: '', // optional
-            eventColour: '',
+            eventColour: '#3182ce',
         },
         {
             activityName: 'Activity 2',
@@ -123,7 +86,7 @@ export default function Home({ apiUrl }) {
             event: false,
             eventPeriod: '0', // between startPeriod, endPeriod
             eventName: '', // optional
-            eventColour: '',
+            eventColour: '#3182ce',
         },
         {
             activityName: 'Activity 3',
@@ -133,7 +96,7 @@ export default function Home({ apiUrl }) {
             event: false,
             eventPeriod: '0', // between startPeriod, endPeriod
             eventName: '', // optional
-            eventColour: '',
+            eventColour: '#3182ce',
         },
     ]);
 
@@ -284,7 +247,7 @@ export default function Home({ apiUrl }) {
             event: false,
             eventPeriod: '0', // between startPeriod, endPeriod
             eventName: '', // optional
-            eventColour: '',
+            eventColour: '#3182ce',
         };
         setGanttData((prevState) => {
             if (prevState.length < MAX_GANTT_ITEM) {
@@ -338,9 +301,10 @@ export default function Home({ apiUrl }) {
     return (
         <form onSubmit={handleSubmit}>
             {/* HEADER SECTION */}
-            <Flex borderBottom="1px" borderBottomColor="gray.200">
+            <Flex borderBottom="1px" borderBottomColor="gray.200" align="center">
                 <Box p={4}>
                     <Heading>Fiat Lux</Heading>
+                    <Text fontSize="xl">Let there be slide, awesome slides 🎨</Text>
                 </Box>
                 <Spacer />
                 <Box p={4}>
