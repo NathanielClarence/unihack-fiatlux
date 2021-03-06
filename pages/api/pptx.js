@@ -139,6 +139,11 @@ function createChevron(pptx, title, items) {
     const subheadings = [];
     const icons = [];
     const numberOfChevron = items.length;
+    const fontFaceHeading = 'Bahnschrift SemiBold SemiConden'; // This is the default text style for headings
+    const fontFaceBody = 'Bahnschrift Light Condensed'; // This is the default text style for body
+    const themeColor1 = '1500B1'; // Dark blue
+    const themeColor2 = 'DE4C4D'; // Red
+
 
     for (let i = 0; i < numberOfChevron; i++) {
         texts.push(items[i].heading);
@@ -148,9 +153,14 @@ function createChevron(pptx, title, items) {
 
     sl.addText(title,
         {
-            x: '43%',
+            x: '8%',
             y: '10%',
+            w: '80%',
+            h: '10%',
             color: '000000',
+            bold: true,
+            fontFace: fontFaceHeading,
+            fontSize: '28',
             fill: { color: 'FFFFFF' },
             align: pptx.AlignH.left,
         });
@@ -164,25 +174,34 @@ function createChevron(pptx, title, items) {
 
     positions.set(4,
         [
-            ['8%', '28%', '48%', '68%'], /* chevron pos */
-            ['17%', '37%', '57%', '77%'], /* image pos */
-            ['14%', '34%', '54%', '74%'], /* textbox pos */
-            '24%',
+            ['8%', '28%', '48%', '68%'], // chevron pos
+            ['17%', '37%', '57%', '77%'], // image pos
+            ['9%', '29%', '49%', '69%'], // heading text pos
+            ['8%', '28%', '48%', '68%'], // sub-heading text pos
+            '24%', // width of chevron
+            '18%', // width of heading text
+            '20%', // width of sub heading text
         ]);
 
     positions.set(5,
         [
             ['12%', '27%', '42%', '57%', '72%'],
-            ['19%', '34%', '49%', '64%', '79%'],
-            ['14%', '29%', '44%', '59%', '74%'],
+            ['19.5%', '34.5%', '49.5%', '64.5%', '79.5%'],
+            ['12.5%', '27.5%', '42.5%', '57.5%', '72.5%'],
+            ['12%', '27%', '42%', '57%', '72%'],
             '19%',
+            '13%',
+            '15%',
         ]);
     positions.set(6,
         [
-            ['12%', '24%', '36%', '48%', '60%', '72%'],
-            ['18%', '30%', '42%', '54%', '66%', '78%'],
-            ['12%', '24%', '36%', '48%', '60%', '72%'],
+            ['10%', '22%', '34%', '46%', '58%', '70%'],
+            ['16.5%', '28.5%', '40.5%', '52.5%', '64.5%', '76.5%'],
+            ['9.5%', '21.5%', '33.5%', '45.5%', '57.5%', '69.5%'],
+            ['10%', '22%', '34%', '46%', '58%', '70%'],
             '16%',
+            '13%',
+            '12%',
         ]);
 
     for (let i = 0; i < numberOfChevron; i++) {
@@ -191,10 +210,10 @@ function createChevron(pptx, title, items) {
             {
                 x: positions.get(numberOfChevron)[0][i],
                 y: '43%',
-                w: positions.get(numberOfChevron)[3],
+                w: positions.get(numberOfChevron)[4],
                 h: '18%',
                 fill: {
-                    color: 'ED7D31'
+                    color: themeColor2
                 },
             });
 
@@ -210,17 +229,20 @@ function createChevron(pptx, title, items) {
             },
         );
 
-        // add textbox
+        // add heading textbox
         sl.addText(
             texts[i],
             {
                 x: positions.get(numberOfChevron)[2][i],
                 y: '30%',
-                w: '12%',
+                w: positions.get(numberOfChevron)[5],
                 h: '12%',
                 align: 'center',
                 valign: 'middle',
                 fontSize: 14,
+                bold: true,
+                fontFace: fontFaceHeading,
+                color: themeColor1,
             },
         );
 
@@ -228,13 +250,14 @@ function createChevron(pptx, title, items) {
         sl.addText(
             subheadings[i],
             {
-                x: positions.get(numberOfChevron)[2][i],
+                x: positions.get(numberOfChevron)[3][i],
                 y: '65%',
-                w: '12%',
-                h: '12%',
-                align: 'center',
-                valign: 'middle',
+                w: positions.get(numberOfChevron)[6],
+                h: '30%',
+                align: 'left',
+                valign: 'top',
                 fontSize: 11,
+                fontFace: fontFaceBody,
             },
         );
     }
