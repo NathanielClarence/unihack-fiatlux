@@ -135,7 +135,6 @@ function createChevron(pptx, title, items) {
 
 function createGanttChart(pptx, data, sl, startBar = 42.5) {
     const steps = new Map();
-    //let bar = startBar;
     for (let i = 0; i < data.length; i += 1) {
         steps.set(data[i].activityName, [
             data[i].period, parseInt(data[i].startPeriod, 10), parseInt(data[i].endPeriod, 10), 'DE4C4D',
@@ -275,6 +274,16 @@ function createTableGantt(pptx, tableData, title) {
             );
 
             dataB.push(tableData[index]);
+        }
+    } else {
+        for (let index = 0; index < tableData.length; index += 1) {
+            dataSlideA.push(
+                [
+                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                ],
+            );
+
+            dataA.push(tableData[index]);
         }
     }
     sl.addText(title,
