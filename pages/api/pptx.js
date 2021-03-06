@@ -143,7 +143,7 @@ function createGanttChart(pptx, data, sl, startBar = 42.5) {
             parseInt(data[i].eventPeriod, 10), data[i].eventName, data[i].eventColour,
         ]);
     }
-    let startBarV = 31.5;
+    let startBarV = 32;
     const startEvent = 42.5;
     let startLegend = 15;
 
@@ -158,7 +158,7 @@ function createGanttChart(pptx, data, sl, startBar = 42.5) {
                     x: startBar.toString().concat('%'),
                     y: startBarV.toString().concat('%'),
                     w: barWidth.toString().concat('%'),
-                    h: '7.1%',
+                    h: '5%',
                     fill: {
                         color: value[3],
                     },
@@ -204,7 +204,8 @@ function createGanttChart(pptx, data, sl, startBar = 42.5) {
                     w: '8%',
                     h: '7.1%',
                     fontFace: fontFaceBody,
-                    fontSize: 11
+                    fontSize: 11,
+                    valign: 'middle',
                 },
             );
 
@@ -228,7 +229,8 @@ function createTableGantt(pptx, tableData, title) {
             text: 'Week',
             options: {
                 fontFace: fontFaceHeading,
-                fontSize: 14, 
+                fontSize: 14,
+                valign: 'middle', 
                 color: 'FFFFFF', 
                 bold: true,
                 fill: '1500B1',
@@ -238,18 +240,18 @@ function createTableGantt(pptx, tableData, title) {
                     { type: 'none' }],
             },
         },
-        { text: '1', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '2', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '3', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '4', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '5', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '6', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '7', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '8', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '9', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '10', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '11', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
-        { text: '12', options: { align:'center',fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '1', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '2', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '3', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '4', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '5', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '6', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '7', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '8', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '9', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '10', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '11', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '12', options: { align: 'center', valign: 'middle', fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
     ];
     let sl = pptx.addSlide();
     let dataSlideA = [dataDate];
@@ -272,7 +274,7 @@ function createTableGantt(pptx, tableData, title) {
             }
             dataSlideA.push(
                 [
-                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, valign: 'middle', color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
@@ -299,7 +301,7 @@ function createTableGantt(pptx, tableData, title) {
 
             dataSlideB.push(
                 [
-                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, valign: 'middle', color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
@@ -328,7 +330,7 @@ function createTableGantt(pptx, tableData, title) {
             
             dataSlideA.push(
                 [
-                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, valign: 'middle', color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                     { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
