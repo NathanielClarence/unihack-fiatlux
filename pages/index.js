@@ -41,7 +41,7 @@ function createList(numElements) {
         arr[i] = parseNumEl;
     }
     return arr.map((element, index) => (
-        <Box p={2}>
+        <Box p={2} key={element.toString()}>
             <VStack>
                 <HStack>
                     <VStack>
@@ -402,6 +402,7 @@ export default function Home({ apiUrl }) {
                     {/* Chevron Components */}
                     {slideType === 'CHEVRON' ? chevronData.map((item, index) => (
                         <Box
+                            key={index.toString()}
                             lineHeight="1.2"
                             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
                             border="1px"
@@ -440,7 +441,7 @@ export default function Home({ apiUrl }) {
                                     onChange={(e) => handleChevronDataChange(e.target.value, 2, index) }
                                 >
                                     {Object.keys(ICONS_URL).map((key) => (
-                                        <option value={ICONS_URL[key]}>{key}</option>
+                                        <option key={key} value={ICONS_URL[key]}>{key}</option>
                                     ))}
                                 </Select>
                             </FormControl>
@@ -474,6 +475,7 @@ export default function Home({ apiUrl }) {
                     {/* Gantt Components (Start) */}
                     {slideType === 'GANTT' ? ganttData.map((item, index) => (
                         <Box
+                            key={index.toString()}
                             lineHeight="1.2"
                             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
                             border="1px"
@@ -523,7 +525,7 @@ export default function Home({ apiUrl }) {
                                                     onChange={(e) => handleGanttDataChange(e.target.value, 2, index)}
                                                 >
                                                     {startPeriodSelection.map((element) => (
-                                                        <option>{element}</option>
+                                                        <option key={element.toString()}>{element}</option>
                                                     ))}
                                                 </Select>
                                             </FormControl>
@@ -541,7 +543,7 @@ export default function Home({ apiUrl }) {
                                                     {startPeriodSelection
                                                         .filter((cur) => cur >= item.startPeriod)
                                                         .map((element) => (
-                                                            <option>{element}</option>
+                                                            <option key={element.toString()}>{element}</option>
                                                         ))}
                                                 </Select>
                                             </FormControl>
@@ -575,7 +577,7 @@ export default function Home({ apiUrl }) {
                                                     onChange={(e) => handleGanttDataChange(e.target.value, 5, index)}
                                                 >
                                                     {startPeriodSelection.map((element) => (
-                                                        <option>{element}</option>
+                                                        <option key={element.toString()}>{element}</option>
                                                     ))}
                                                 </Select>
                                             </FormControl>
