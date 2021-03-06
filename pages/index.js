@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box,
-    Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
+    Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input, useToast,
     Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
 } from '@chakra-ui/react';
 import {
@@ -71,10 +71,13 @@ function createList(numElements) {
 }
 
 export default function Home({ apiUrl }) {
+    const [isButtonLoading, setIsButtonLoading] = useState(false);
     const [fileName, setFileName] = useState('');
     const [imageSource, setImageSource] = useState('https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg');
     const [title, setTitle] = useState('');
     const [slideType, setSlideType] = useState('CHEVRON');
+    const toast = useToast();
+
     // List
     // const [listElement, setListElement] = useState(3);
     const [chevronData, setChevronData] = useState([
@@ -153,7 +156,8 @@ export default function Home({ apiUrl }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const toast = useToast();
+        setFileName('');
+        setIsButtonLoading(true);
         const body = chevronData;
         // if (slideType === 'GANTT') {
         //     body = ganttData;
@@ -167,13 +171,14 @@ export default function Home({ apiUrl }) {
         axios.post(`${apiUrl}/pptx`, values)
             .then((response) => {
                 setFileName(response.data.fileName);
-                // toast({
-                //     title: 'PPTX generated!',
-                //     description: `${response.data.fileName} has been successfully generated`,
-                //     status: 'success',
-                //     duration: 5000,
-                //     isClosable: true,
-                // });
+                setIsButtonLoading(false);
+                toast({
+                    title: 'Slides successfully generated!',
+                    description: 'You can download your slide by clicking the Download Slides button',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -190,11 +195,13 @@ export default function Home({ apiUrl }) {
                 <Spacer />
                 <Box p={4}>
                     <Button
+                        isLoading={isButtonLoading}
+                        loadingText="Crafting your slides..."
                         colorScheme="blue"
                         type="submit"
                         rightIcon={<RepeatIcon />}
                     >
-                        Generate PPTX
+                        Generate Slides
                     </Button>
                 </Box>
             </Flex>
@@ -349,7 +356,7 @@ export default function Home({ apiUrl }) {
                     <ImageSlider images={[imageSource]} />
                     <Center>
                         <Box p={16}>
-                            {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}
+                            {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download Slides</Button> : null}
                         </Box>
                     </Center>
                 </Box>
