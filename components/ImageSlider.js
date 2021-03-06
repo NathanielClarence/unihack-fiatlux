@@ -46,6 +46,6 @@ const ImageSlider = ({ images }) => {
             </Flex>
         </Box>
     );
-}
+};
 
 export default ImageSlider;
