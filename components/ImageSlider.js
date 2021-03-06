@@ -25,7 +25,7 @@ const ImageSlider = ({ images }) => {
     return (
         <Box>
             <Center>
-                <Image boxSize="200px" src={imagesList[currentIndex]} />
+                <Image height="200px" src={imagesList[currentIndex]} />
             </Center>
             <Flex p={4}>
                 <Button

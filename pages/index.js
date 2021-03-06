@@ -1,5 +1,5 @@
 // UI Library Components
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Button, Heading, VStack, HStack, Box, Input, useToast,
     Checkbox, RadioGroup, Radio,
@@ -73,7 +73,7 @@ function createList(numElements) {
 export default function Home({ apiUrl }) {
     const [isButtonLoading, setIsButtonLoading] = useState(false);
     const [fileName, setFileName] = useState('');
-    const [imageSource, setImageSource] = useState('https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg');
+    const [imageSource, setImageSource] = useState('/preview-chevron-4.png');
     const [title, setTitle] = useState('');
     const [slideType, setSlideType] = useState('CHEVRON');
     const toast = useToast();
@@ -103,6 +103,47 @@ export default function Home({ apiUrl }) {
             iconName: ICONS_URL.publicLight,
         },
     ]);
+
+    const [ganttData, setGanttData] = useState([
+        {
+            activityName: 'Activity 1',
+            period: false, // default false
+            startPeriod: 1, // From 1 to 12
+            endPeriod: '',
+            event: false,
+            eventPeriod: '0', // between startPeriod, endPeriod
+            eventName: '', // optional
+            eventColour: '',
+        },
+        {
+            activityName: 'Activity 2',
+            period: false, // default false
+            startPeriod: '', // From 1 to 12
+            endPeriod: '',
+            event: false,
+            eventPeriod: '0', // between startPeriod, endPeriod
+            eventName: '', // optional
+            eventColour: '',
+        },
+        {
+            activityName: 'Activity 3',
+            period: false, // default false
+            startPeriod: '', // From 1 to 12
+            endPeriod: '',
+            event: false,
+            eventPeriod: '0', // between startPeriod, endPeriod
+            eventName: '', // optional
+            eventColour: '',
+        },
+    ]);
+
+    useEffect(() => {
+        let currentLength = chevronData.length;
+        if (slideType === 'GANTT') currentLength = ganttData.length;
+        const newImageSource = `/preview-${slideType.toLowerCase()}-${currentLength}.png`;
+        setImageSource(newImageSource);
+    }, [slideType, chevronData, ganttData]);
+
     const MIN_CHEVRON_ITEM = 4;
     const MAX_CHEVRON_ITEM = 6;
 
@@ -156,38 +197,6 @@ export default function Home({ apiUrl }) {
     };
 
     // Gantt chart
-    const [ganttData, setGanttData] = useState([
-        {
-            activityName: 'Activity 1',
-            period: false, // default false
-            startPeriod: 1, // From 1 to 12
-            endPeriod: '',
-            event: false,
-            eventPeriod: '0', // between startPeriod, endPeriod
-            eventName: '', // optional
-            eventColour: '',
-        },
-        {
-            activityName: 'Activity 2',
-            period: false, // default false
-            startPeriod: '', // From 1 to 12
-            endPeriod: '',
-            event: false,
-            eventPeriod: '0', // between startPeriod, endPeriod
-            eventName: '', // optional
-            eventColour: '',
-        },
-        {
-            activityName: 'Activity 3',
-            period: false, // default false
-            startPeriod: '', // From 1 to 12
-            endPeriod: '',
-            event: false,
-            eventPeriod: '0', // between startPeriod, endPeriod
-            eventName: '', // optional
-            eventColour: '',
-        },
-    ]);
     const MIN_GANTT_ITEM = 3;
     const MAX_GANTT_ITEM = 14;
     const PERIOD_LENGTH = 12;
