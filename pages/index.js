@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import {
     Button, Heading, VStack, HStack, Box,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input, useToast,
-    Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
+    Flex, Spacer, Center, Text, Select, FormControl, FormLabel, useColorMode, IconButton,
 } from '@chakra-ui/react';
 import {
-    DownloadIcon, RepeatIcon, AddIcon, DeleteIcon,
+    DownloadIcon, RepeatIcon, AddIcon, DeleteIcon, MoonIcon, SunIcon,
 } from '@chakra-ui/icons';
 
 // HTTP Request
@@ -77,6 +77,7 @@ export default function Home({ apiUrl }) {
     const [title, setTitle] = useState('');
     const [slideType, setSlideType] = useState('CHEVRON');
     const toast = useToast();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     // List
     // const [listElement, setListElement] = useState(3);
@@ -193,6 +194,12 @@ export default function Home({ apiUrl }) {
                     <Heading>Fiat Lux</Heading>
                 </Box>
                 <Spacer />
+                <Box p={4}>
+                    {colorMode === 'light'
+                        ? (<IconButton aria-label="Dark mode" icon={<MoonIcon />} onClick={toggleColorMode} />)
+                        : (<IconButton aria-label="Light mode" icon={<SunIcon />} onClick={toggleColorMode} />
+                        )}
+                </Box>
                 <Box p={4}>
                     <Button
                         isLoading={isButtonLoading}
