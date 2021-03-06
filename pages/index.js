@@ -16,6 +16,23 @@ import handleDownload from '../utils/handleDownload';
 // Custom Components
 import { EditValue, ImageSlider, Card } from '../components';
 
+const ICONS_URL = {
+    publicLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011593/baseline_public_white_48dp_zesoji.png',
+    publicDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011576/baseline_public_black_48dp_orhbij.png',
+    phoneLinkLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011552/baseline_phonelink_white_48dp_foug8j.png',
+    phoneLinkDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011564/baseline_phonelink_black_48dp_f6avox.png',
+    laptopLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011538/baseline_laptop_white_48dp_oqacb7.png',
+    laptopDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011524/baseline_laptop_black_48dp_quz8md.png',
+    feedLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011504/baseline_feed_white_48dp_pyliek.png',
+    feedDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011517/baseline_feed_black_48dp_zanbbn.png',
+    settingsLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011420/baseline_settings_white_48dp_lhdd0v.png',
+    settingsDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011408/baseline_settings_black_48dp_kmockt.png',
+    sportsKabaddiLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011381/baseline_sports_kabaddi_white_48dp_t2vg6h.png',
+    sportsKabaddiDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011347/baseline_sports_kabaddi_black_48dp_hck911.png',
+    paymentLight: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615011028/baseline_payment_white_48dp_h2vujo.png',
+    paymentDark: 'https://res.cloudinary.com/doeq4duhf/image/upload/v1615010867/baseline_payment_black_48dp_yg02x5.png',
+};
+
 function createList(numElements) {
     const parseNumEl = parseInt(numElements);
     const arr = new Array(parseNumEl);
@@ -64,22 +81,22 @@ export default function Home({ apiUrl }) {
         {
             heading: 'Heading 1',
             subheading: 'Subheading 1',
-            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+            iconName: ICONS_URL.publicLight,
         },
         {
             heading: 'Heading 2',
             subheading: 'Subheading 2',
-            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+            iconName: ICONS_URL.publicLight,
         },
         {
             heading: 'Heading 3',
             subheading: 'Subheading 3',
-            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+            iconName: ICONS_URL.publicLight,
         },
         {
             heading: 'Heading 4',
             subheading: 'Subheading 4',
-            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+            iconName: ICONS_URL.publicLight,
         },
     ]);
     const MIN_CHEVRON_ITEM = 4;
@@ -114,7 +131,7 @@ export default function Home({ apiUrl }) {
         const newItem = {
             heading: '',
             subheading: '',
-            iconName: '',
+            iconName: ICONS_URL.publicLight,
         };
         setChevronData((prevState) => {
             if (prevState.length < MAX_CHEVRON_ITEM) {
@@ -255,14 +272,15 @@ export default function Home({ apiUrl }) {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel>{`Icon URL ${index + 1}`}</FormLabel>
-                                <Input
-                                    label={`Icon URL ${index + 1}`}
-                                    type="text"
-                                    placeholder="Icon URL"
+                                <FormLabel>{`Icon Name ${index + 1}`}</FormLabel>
+                                <Select
                                     value={item.iconName}
-                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index)}
-                                />
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index) }
+                                >
+                                    {Object.keys(ICONS_URL).map((key) => (
+                                        <option value={ICONS_URL[key]}>{key}</option>
+                                    ))}
+                                </Select>
                             </FormControl>
                         </Box>
                     )) : null}
