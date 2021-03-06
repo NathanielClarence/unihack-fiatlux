@@ -261,7 +261,6 @@ export default function Home({ apiUrl }) {
                             fontSize="14px"
                             fontWeight="semibold"
                             borderColor="#ccd0d5"
-                            color="#4b4f56"
                             marginTop="16px"
                             marginBottom="16px"
                         >
