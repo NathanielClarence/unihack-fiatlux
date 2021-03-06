@@ -5,7 +5,7 @@ import {
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
     Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
 } from '@chakra-ui/react';
-import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
+import { DownloadIcon, RepeatIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
@@ -55,29 +55,101 @@ export default function Home({ apiUrl }) {
     const [fileName, setFileName] = useState('');
     const [imageSource, setImageSource] = useState('https://bit.ly/sage-adebayo');
     const [title, setTitle] = useState('');
-    const [slideType, setSlideType] = useState('TABLE');
-    // Table
-    const [rowNumber, setRowNumber] = useState(3);
-    const [colNumber, setColNumber] = useState(3);
-    const [tableData, setTableData] = useState([['', '', ''], ['', '', '']]);
+    const [slideType, setSlideType] = useState('CHEVRON');
     // List
     // const [listElement, setListElement] = useState(3);
+    const [chevronData, setChevronData] = useState([
+        {
+            heading: 'Heading 1',
+            subheading: 'Subheading 1',
+            iconName: 'https://bit.ly/sage-adebayo',
+        },
+        {
+            heading: 'Heading 2',
+            subheading: 'Subheading 2',
+            iconName: 'https://bit.ly/sage-adebayo',
+        },
+        {
+            heading: 'Heading 3',
+            subheading: 'Subheading 3',
+            iconName: 'https://bit.ly/sage-adebayo',
+        },
+        {
+            heading: 'Heading 4',
+            subheading: 'Subheading 4',
+            iconName: 'https://bit.ly/sage-adebayo',
+        },
+    ]);
+    const MIN_CHEVRON_ITEM = 4;
+    const MAX_CHEVRON_ITEM = 6;
 
-    const handleTableDataChange = (newValue, indexRow, indexCol) => {
-        setTableData((prevState) => {
+    // const handleTableDataChange = (newValue, indexRow, indexCol) => {
+    //     setTableData((prevState) => {
+    //         const newState = [...prevState];
+    //         newState[indexRow][indexCol] = newValue;
+    //         return newState;
+    //     });
+    //     console.log(tableData);
+    // };
+
+    const handleChevronDataChange = (newValue, itemChangedEnum, index) => {
+        if (itemChangedEnum === 0) {
+            // Heading change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].heading = newValue;
+                return newState;
+            });
+        } else if (itemChangedEnum === 1) {
+            // Subheading change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].subheading = newValue;
+                return newState;
+            });
+        } else {
+            // Icon Name change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].iconName = newValue;
+                return newState;
+            });
+        }
+    };
+
+    const handleChevronDataAdd = () => {
+        const newItem = {
+            heading: '',
+            subheading: '',
+            iconName: '',
+        };
+        setChevronData((prevState) => {
+            if (prevState.length < MAX_CHEVRON_ITEM) {
+                return [...prevState, newItem];
+            }
+            return prevState;
+        });
+    };
+
+    const handleChevronDataDelete = () => {
+        setChevronData((prevState) => {
             const newState = [...prevState];
-            newState[indexRow][indexCol] = newValue;
+            if (newState.length > MIN_CHEVRON_ITEM) {
+                newState.pop();
+            }
             return newState;
         });
-        console.log(tableData);
     };
 
     const handleSubmit = (event) => {
         // alert(JSON.stringify({test: 'Test'}));
         event.preventDefault();
         // const toast = useToast();
+        const body = chevronData;
         const values = {
             title,
+            slideType,
+            body,
         };
         axios.post(`${apiUrl}/pptx`, values)
             .then((response) => {
@@ -139,68 +211,86 @@ export default function Home({ apiUrl }) {
                         />
                     </FormControl>
                     {/* Slide Type Component */}
-                    <Box marginTop="16px">
+                    <Box marginTop="16px" marginBottom="16px">
                         <FormControl>
                             <FormLabel>Slide Type</FormLabel>
                             <Select
                                 value={slideType}
                                 onChange={(event) => setSlideType(event.target.value)}
                             >
-                                <option value="TABLE">Table</option>
-                                <option value="LIST">List</option>
+                                <option value="CHEVRON">Chevron</option>
+                                <option value="GANTT">Gantt Chart</option>
                             </Select>
                         </FormControl>
                     </Box>
-                    {/* Table Components (Start) */}
-                    <Box>
-                        <HStack>
-                            <Box w="100%" fontWeight="semibold">
-                                Data
-                            </Box>
-                            <VStack>
-                                <Box>
-                                    <h3>Row</h3>
-                                </Box>
-                                <InputNumber
-                                    value={rowNumber}
-                                    onChange={(value) => setRowNumber(value)}
-                                    min={1}
-                                    max={20}
+                    {/* Chevron Components */}
+                    {chevronData.map((item, index) => (
+                        <Box
+                            lineHeight="1.2"
+                            transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                            border="1px"
+                            p="12px"
+                            borderRadius="6px"
+                            fontSize="14px"
+                            fontWeight="semibold"
+                            borderColor="#ccd0d5"
+                            color="#4b4f56"
+                            marginTop="16px"
+                            marginBottom="16px"
+                        >
+                            <FormControl>
+                                <FormLabel>{`Heading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Heading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Heading"
+                                    value={item.heading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 0, index)}
                                 />
-                            </VStack>
-                            <VStack>
-                                <Box>
-                                    <h3>Column</h3>
-                                </Box>
-                                <InputNumber
-                                    value={colNumber}
-                                    onChange={(value) => setColNumber(value)}
-                                    min={1}
-                                    max={20}
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Subheading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Subheading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Subheading"
+                                    value={item.subheading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 1, index)}
                                 />
-
-                            </VStack>
-                        </HStack>
-                        <Table variant="simple" size="md">
-                            <Tbody>
-                                {tableData.map((itemRow, indexRow) => (
-                                    <Tr>
-                                        {
-                                            tableData[indexRow].map((itemCol, indexCol) => (
-                                                <Td>
-                                                    <EditValue
-                                                        value={tableData[indexRow][indexCol]}
-                                                        onChange={(newValue) => handleTableDataChange(newValue, indexRow, indexCol)}
-                                                    />
-                                                </Td>
-                                            ))
-                                        }
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
-                    </Box>
-                    {/* Table Component (End) */}
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Icon URL ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Icon URL ${index + 1}`}
+                                    type="text"
+                                    placeholder="Icon URL"
+                                    value={item.iconName}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index)}
+                                />
+                            </FormControl>
+                        </Box>
+                    ))}
+                    <Flex>
+                        <Spacer />
+                        <Box mx="16px">
+                            <Button
+                                leftIcon={<DeleteIcon />}
+                                onClick={handleChevronDataDelete}
+                                isDisabled={chevronData.length <= MIN_CHEVRON_ITEM}
+                            >
+                                Delete Item
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button
+                                leftIcon={<AddIcon />}
+                                onClick={handleChevronDataAdd}
+                                isDisabled={chevronData.length >= MAX_CHEVRON_ITEM}
+                            >
+                                Add Item
+                            </Button>
+                        </Box>
+                    </Flex>
                     {/* List Component (Start) */}
                     {/* <Box>
                         <HStack spacing="200px">
