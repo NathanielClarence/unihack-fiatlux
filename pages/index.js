@@ -301,10 +301,9 @@ export default function Home({ apiUrl }) {
     return (
         <form onSubmit={handleSubmit}>
             {/* HEADER SECTION */}
-            <Flex borderBottom="1px" borderBottomColor="gray.200" align="center">
+            <Flex boxShadow="base" align="center">
                 <Box p={4}>
                     <Heading>Fiat Lux</Heading>
-                    <Text fontSize="xl">Let there be slide, awesome slides 🎨</Text>
                 </Box>
                 <Spacer />
                 <Box p={4}>
