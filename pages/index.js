@@ -134,46 +134,13 @@ export default function Home({ apiUrl }) {
         });
     };
 
-    // Gantt chart
-    const [ganttData, setGanttData] = useState([
-        {
-            activityName: 'Step 0',
-            eventName: 'Kick off', // optional
-            period: false, // default false
-            startPeriod: '', // From 1 to 12
-            endPeriod: '',
-            eventPeriod: '', // between startPeriod, endPeriod
-            eventColour: '#000000',
-        },
-        {
-            activityName: 'Step 1',
-            eventName: '', // optional
-            period: false,
-            startPeriod: '',
-            endPeriod: '',
-            eventPeriod: '', // between startPeriod, endPeriod
-            eventColour: '#000000',
-        },
-        {
-            activityName: 'Step 2',
-            eventName: 'Kick off', // optional
-            period: false,
-            startPeriod: '',
-            endPeriod: '',
-            eventPeriod: '', // between startPeriod, endPeriod
-            eventColour: '#000000',
-        },
-    ]);
-    const MIN_GANTT_ITEM = 3;
-    const MAX_GANTT_ITEM = 15;
-
     const handleSubmit = (event) => {
         event.preventDefault();
         // const toast = useToast();
-        let body = chevronData;
-        if (slideType === 'GANTT') {
-            body = ganttData;
-        }
+        const body = chevronData;
+        // if (slideType === 'GANTT') {
+        //     body = ganttData;
+        // }
         const values = {
             title,
             slideType,
@@ -324,79 +291,6 @@ export default function Home({ apiUrl }) {
                             </Flex>
                         ) : null}
                     {/* Chevron Components (End) */}
-                    {/* Gantt Components (Start) */}
-                    {slideType === 'GANTT' ? ganttData.map((item, index) => (
-                        <Box
-                            lineHeight="1.2"
-                            transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-                            border="1px"
-                            p="12px"
-                            borderRadius="6px"
-                            fontSize="14px"
-                            fontWeight="semibold"
-                            borderColor="#ccd0d5"
-                            color="#4b4f56"
-                            marginTop="16px"
-                            marginBottom="16px"
-                        >
-                            <FormControl>
-                                <FormLabel>{`Heading ${index + 1}`}</FormLabel>
-                                <Input
-                                    label={`Heading ${index + 1}`}
-                                    type="text"
-                                    placeholder="Heading"
-                                    value={item.heading}
-                                    onChange={(e) => handleChevronDataChange(e.target.value, 0, index)}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{`Subheading ${index + 1}`}</FormLabel>
-                                <Input
-                                    label={`Subheading ${index + 1}`}
-                                    type="text"
-                                    placeholder="Subheading"
-                                    value={item.subheading}
-                                    onChange={(e) => handleChevronDataChange(e.target.value, 1, index)}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{`Icon URL ${index + 1}`}</FormLabel>
-                                <Input
-                                    label={`Icon URL ${index + 1}`}
-                                    type="text"
-                                    placeholder="Icon URL"
-                                    value={item.iconName}
-                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index)}
-                                />
-                            </FormControl>
-                        </Box>
-                    )) : null}
-                    {/* {slideType === 'GANTT' ?
-                        (
-                            <Flex>
-                                <Spacer />
-                                <Box mx="16px">
-                                    <Button
-                                        leftIcon={<DeleteIcon />}
-                                        onClick={handleChevronDataDelete}
-                                        isDisabled={chevronData.length <= MAX_GANTT_ITEM}
-                                    >
-                                        Delete Item
-                                    </Button>
-                                </Box>
-                                <Box>
-                                    <Button
-                                        leftIcon={<AddIcon />}
-                                        onClick={handleChevronDataAdd}
-                                        isDisabled={gantt.length >= MAX_GANTT_ITEM}
-                                    >
-                                        Add Item
-                                    </Button>
-                                </Box>
-                            </Flex>
-                        ) : null} */}
-                    {/* Gantt Component (End) */}
-                    
                     {/* List Component (Start) */}
                     {/* <Box>
                         <HStack spacing="200px">
