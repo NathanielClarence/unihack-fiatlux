@@ -135,6 +135,8 @@ function createChevron(pptx, title, items) {
 
 function createGanttChart(pptx, data, sl, startBar = 42.5) {
     const steps = new Map();
+    const fontFaceBody = 'Bahnschrift Light Condensed'; // This is the default text style for body
+
     for (let i = 0; i < data.length; i += 1) {
         steps.set(data[i].activityName, [
             data[i].period, parseInt(data[i].startPeriod, 10), parseInt(data[i].endPeriod, 10), 'DE4C4D',
@@ -199,12 +201,14 @@ function createGanttChart(pptx, data, sl, startBar = 42.5) {
                 {
                     x: startLegend.toString().concat('%'),
                     y: '85%',
-                    w: '12.5%',
+                    w: '8%',
                     h: '7.1%',
+                    fontFace: fontFaceBody,
+                    fontSize: 11
                 },
             );
 
-            startLegend += 14;
+            startLegend += 9;
         }
 
         startBarV += 7.15;
@@ -222,28 +226,29 @@ function createTableGantt(pptx, tableData, title) {
     const dataDate = [
         {
             text: 'Week',
-            fontSize: 11,
-            fontFace: fontFaceBody,
             options: {
-                fill: '00008B',
-                border: [{ color: '000000' },
-                    { color: '000000' },
-                    { color: '000000' },
-                    { color: '000000' }],
+                fontFace: fontFaceBody, 
+                color: 'FFFFFF', 
+                bold: true,
+                fill: '1500B1',
+                border: [{ type: 'none' },
+                    { type: 'none' },
+                    { type: 'none' },
+                    { type: 'none' }],
             },
         },
-        { text: '1', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '2', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '3', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '4', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '5', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '6', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '7', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '8', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '9', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '10', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '11', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
-        { text: '12', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '1', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '2', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '3', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '4', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '5', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '6', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '7', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '8', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '9', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '10', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '11', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+        { text: '12', options: { fontFace: fontFaceBody, color: 'FFFFFF', bold: true, fill: '1500B1', border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
     ];
     let sl = pptx.addSlide();
     let dataSlideA = [dataDate];
@@ -253,23 +258,59 @@ function createTableGantt(pptx, tableData, title) {
     let slides = [];
     let threshold = 0;
     let leftOver = 0;
+    let color = 'DE4C4D';
 
     if (tableData.length > 7) {
         threshold = Math.round(tableData.length / 2);
         leftOver = tableData.length - threshold;
         for (let index = 0; index < threshold; index += 1) {
+            if (index < Math.round(threshold / 2)){
+                color = 'DE4C4D';
+            }else{
+                color = '1500B1'
+            }
             dataSlideA.push(
                 [
-                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                 ],
             );
 
             dataA.push(tableData[index]);
         }
         for (let index = threshold; index < tableData.length; index += 1) {
+            if (index < threshold + Math.round(threshold / 2)){
+                color = 'DE4C4D';
+            }else{
+                color = '1500B1'
+            }
+
             dataSlideB.push(
                 [
-                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                 ],
             );
 
@@ -277,9 +318,28 @@ function createTableGantt(pptx, tableData, title) {
         }
     } else {
         for (let index = 0; index < tableData.length; index += 1) {
+            
+            if (index < Math.round(tableData.length / 2)){
+                color = 'DE4C4D';
+            }else{
+                color = '1500B1'
+            }
+            
             dataSlideA.push(
                 [
-                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                    { text: tableData[index].activityName, options: { fontFace: fontFaceBody, color: '000000', bold: true, border: [{ type : 'none' }, { color: color }, { type : 'none' }, { type : 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
+                    { text: '', options: { border: [{ type: 'none' }, { type: 'none' }, { type: 'none' }, { type: 'none' }] } },
                 ],
             );
 
