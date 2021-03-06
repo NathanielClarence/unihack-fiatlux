@@ -3,136 +3,6 @@ import Pptxgen from 'pptxgenjs';
 import * as admin from 'firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
 
-// function createChart(pptx, title, csvFile,chartType = "LINE"){
-//     if (chartType === "LINE"){
-//         const type = pptx.ChartType.line
-//     } else if (chartType === "BAR"){
-//         const type = pptx.ChartType.bar
-//     }
-
-//     return new Promise(function(resolve, reject){
-//         let sl = pptx.addSlide()
-//         sl.addText(title, 
-//             {
-//                 x: "43%", 
-//                 y: "10%", 
-//                 color: "000000", 
-//                 fill:{color: "FFFFFF"},
-//                 align: pptx.AlignH.left
-//             }
-//         )
-
-//         sl.background = {
-//             fill: "FFFFFF"
-//         }
-//         sl.color = "000000"
-
-//         let chartData = []
-
-//         fs.createReadStream(csvFile)
-//             .pipe(parse())
-//             .on('error', error => {
-//                 console.error(error)
-//             })
-//             .on('data', row => chartData.push(row))
-//             .on('end', rowCount => 
-//                 {
-//                     //console.log(`Parsed ${rowCount} rows`)
-                    
-//                     let title = chartData.shift()
-//                     //console.log(title)
-//                     title.shift()
-//                     //console.log(title)
-//                     let labels = []
-//                     let values = []
-//                     title.forEach(e => {values.push(new Array())})
-
-//                     for (let i = 0; i < chartData.length; i++){
-//                         labels.push(chartData[i].shift())
-//                         for(let j = 0; j < chartData[i].length; j++){
-//                             values[j][i] = chartData[i][j]
-//                         }
-//                     }
-
-//                     let dt = []
-
-//                     for (let i = 0; i < title.length; i++){
-//                         dt.push(
-//                             {
-//                                 name: title[i],
-//                                 labels: labels,
-//                                 values: values[i]
-//                             }
-//                         )
-//                     }
-
-//                     sl.addChart(type, dt, {showLegend: true})
-
-//                     resolve(sl)
-//                 }
-//             );
-//     })
-// }
-
-// function createPieChart(pptx, title, csvFile) {
-//     return new Promise(function(resolve, reject){
-//         let sl = pptx.addSlide()
-//         sl.addText(title,
-//             {
-//                 x: '43%',
-//                 y: '10%',
-//                 color: '000000',
-//                 fill:{ color: 'FFFFFF' },
-//                 align: pptx.AlignH.left,
-//             }
-//         )
-
-//         sl.background = {
-//             fill: "FFFFFF"
-//         }
-//         sl.color = "000000"
-
-//         let chartData = []
-
-//         fs.createReadStream(csvFile)
-//             .pipe(parse())
-//             .on('error', error => {
-//                 console.error(error)
-//             })
-//             .on('data', row => chartData.push(row))
-//             .on('end', rowCount =>
-//                 {
-//                     //console.log(`Parsed ${rowCount} rows`)
-
-//                     let title = chartData.shift()
-//                     let labels = []
-//                     let values = []
-
-//                     for (let i = 0; i < chartData.length; i++){
-//                         labels.push(chartData[i][0])
-//                         values.push(chartData[i][1])
-//                     }
-
-//                     let dt = [
-//                         {
-//                             name: title.pop(),
-//                             labels: labels,
-//                             values: values
-//                         }
-//                     ]
-
-//                     sl.addChart('pie', dt, {
-//                         type: 'pie',
-//                         showLegend: true,
-//                         legendPos: 't'
-//                     })
-
-//                     resolve(sl)
-//                 }
-//             );
-//     })
-// }
-
 function createChevron(pptx, title, items) {
     const sl = pptx.addSlide();
     const texts = [];
@@ -144,8 +14,7 @@ function createChevron(pptx, title, items) {
     const themeColor1 = '1500B1'; // Dark blue
     const themeColor2 = 'DE4C4D'; // Red
 
-
-    for (let i = 0; i < numberOfChevron; i++) {
+    for (let i = 0; i < numberOfChevron; i += 1) {
         texts.push(items[i].heading);
         subheadings.push(items[i].subheading);
         icons.push(items[i].iconName);
@@ -204,7 +73,7 @@ function createChevron(pptx, title, items) {
             '12%',
         ]);
 
-    for (let i = 0; i < numberOfChevron; i++) {
+    for (let i = 0; i < numberOfChevron; i += 1) {
         // add chevron
         sl.addShape(pptx.ShapeType.chevron,
             {
@@ -213,7 +82,7 @@ function createChevron(pptx, title, items) {
                 w: positions.get(numberOfChevron)[4],
                 h: '18%',
                 fill: {
-                    color: themeColor2
+                    color: themeColor2,
                 },
             });
 
@@ -264,6 +133,189 @@ function createChevron(pptx, title, items) {
     return sl;
 }
 
+function createGanttChart(pptx, data, sl, startBar = 42.5) {
+    const steps = new Map();
+    //let bar = startBar;
+    for (let i = 0; i < data.length; i += 1) {
+        steps.set(data[i].activityName, [
+            data[i].period, parseInt(data[i].startPeriod, 10), parseInt(data[i].endPeriod, 10), 'DE4C4D',
+            parseInt(data[i].eventPeriod, 10), data[i].eventName, data[i].eventColour,
+        ]);
+    }
+    let startBarV = 31.5;
+    const startEvent = 42.5;
+    let startLegend = 15;
+
+    let barWidth = 0;
+
+    steps.forEach((value) => {
+        if (value[0]) {
+            startBar = 42.5 + ((value[1] - 1) * 4.1);
+            barWidth = (value[2] - value[1] + 1) * 4.1;
+            sl.addShape(pptx.ShapeType.rect,
+                {
+                    x: startBar.toString().concat('%'),
+                    y: startBarV.toString().concat('%'),
+                    w: barWidth.toString().concat('%'),
+                    h: '7.1%',
+                    fill: {
+                        color: value[3],
+                    },
+                });
+            startBar += barWidth;
+        }
+        if (value[4] > 0) {
+            barWidth = (value[4] - 1) * 4.1;
+
+            sl.addShape(
+                pptx.ShapeType.triangle,
+                {
+                    x: (startEvent + barWidth + 1).toString().concat('%'),
+                    y: (startBarV + 1.25).toString().concat('%'),
+                    w: '2%',
+                    h: '3.6%',
+                    fill: {
+                        color: value[6],
+                    },
+                },
+            );
+
+            sl.addShape(
+                pptx.ShapeType.triangle,
+                {
+                    x: startLegend.toString().concat('%'),
+                    y: '87%',
+                    w: '2%',
+                    h: '3.6%',
+                    fill: {
+                        color: value[6],
+                    },
+                },
+            );
+
+            startLegend += 3;
+
+            sl.addText(
+                value[5],
+                {
+                    x: startLegend.toString().concat('%'),
+                    y: '85%',
+                    w: '12.5%',
+                    h: '7.1%',
+                },
+            );
+
+            startLegend += 14;
+        }
+
+        startBarV += 7.15;
+    });
+
+    return startBar;
+}
+
+function createTableGantt(pptx, tableData, title) {
+    console.log(JSON.stringify(tableData));
+    console.log(tableData);
+    const fontFaceHeading = 'Bahnschrift SemiBold SemiConden'; // This is the default text style for headings
+    const fontFaceBody = 'Bahnschrift Light Condensed'; // This is the default text style for body
+
+    const dataDate = [
+        {
+            text: 'Week',
+            fontSize: 11,
+            fontFace: fontFaceBody,
+            options: {
+                fill: '00008B',
+                border: [{ color: '000000' },
+                    { color: '000000' },
+                    { color: '000000' },
+                    { color: '000000' }],
+            },
+        },
+        { text: '1', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '2', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '3', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '4', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '5', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '6', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '7', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '8', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '9', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '10', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '11', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+        { text: '12', fontFace: fontFaceBody, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+    ];
+    let sl = pptx.addSlide();
+    let dataSlideA = [dataDate];
+    let dataSlideB = [dataDate];
+    let dataA = [];
+    let dataB = [];
+    let slides = [];
+    let threshold = 0;
+    let leftOver = 0;
+
+    if (tableData.length > 7) {
+        threshold = Math.round(tableData.length / 2);
+        leftOver = tableData.length - threshold;
+        for (let index = 0; index < threshold; index += 1) {
+            dataSlideA.push(
+                [
+                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                ],
+            );
+
+            dataA.push(tableData[index]);
+        }
+        for (let index = threshold; index < tableData.length; index += 1) {
+            dataSlideB.push(
+                [
+                    { text: tableData[index].activityName, options: { border: [{ color: '000000' }, { color: '000000' }, { color: '000000' }, { color: '000000' }] } },
+                ],
+            );
+
+            dataB.push(tableData[index]);
+        }
+    }
+    sl.addText(title,
+        {
+            x: '8%',
+            y: '10%',
+            w: '80%',
+            h: '10%',
+            color: '000000',
+            bold: true,
+            fontFace: fontFaceHeading,
+            fontSize: '28',
+            fill: { color: 'FFFFFF' },
+            align: pptx.AlignH.left,
+        });
+    sl.addTable(dataSlideA, {
+        x: '7.5%',
+        y: '25%',
+        colW: [3.5, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41],
+        rowH: 0.375,
+    });
+    console.log(dataA);
+    console.log(dataB);
+    const startTimeline = createGanttChart(pptx, dataA, sl);
+    slides.push(sl);
+    if (dataSlideB.length > 1) {
+        sl = pptx.addSlide();
+        sl.addTable(dataSlideB,
+            {
+                x: '7.5%',
+                y: '25%',
+                colW: [3.5, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41, 0.41],
+                rowH: 0.375,
+            });
+        createGanttChart(pptx, dataB, sl, startTimeline);
+        slides.push(sl);
+        return slides;
+    }
+    return slides;
+}
+
 export default (req, res) => {
     if (req.method === 'POST') {
         // Initialize pptxgen instance
@@ -286,18 +338,9 @@ export default (req, res) => {
         if (req.body.slideType === 'CHEVRON') {
             slides.push(createChevron(pptx, req.body.title, req.body.body));
         }
-        // const slide;
-        // if (req.body.slideType === 'CHEVRON') {
-        //     slides.push(createChevron(pptx, req.body.title, req.body.body));
-        // } else if (req.body.slideType === 'PIE') {
-        //     slide = await createPieChart(pptx, req.body.title, req.body.file); //req.body.file as csv file upload
-        //     slides.push(slide);
-        // } else if (req.body.slideType === 'CHART') {
-        //     //req.body.file as csv file upload
-        //     // req.body.chartType as string "LINE" "BAR" (for now only 2 provided)
-        //     slide = await createChart(pptx, req.body.title, req.body.file, req.body.chartType)
-        //     slides.push(slide);
-        // }
+        if (req.body.slideType === 'GANTT') {
+            slides.push(createTableGantt(pptx, req.body.body, req.body.title));
+        }
 
         // Initialize Firebase Admin instance
         const rootDirectory = process.cwd();
