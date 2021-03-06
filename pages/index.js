@@ -5,14 +5,16 @@ import {
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
     Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
 } from '@chakra-ui/react';
-import { DownloadIcon, RepeatIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import {
+    DownloadIcon, RepeatIcon, AddIcon, DeleteIcon,
+} from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, InputNumber, ImageSlider, Card } from '../components';
+import { EditValue, ImageSlider, Card } from '../components';
 
 function createList(numElements) {
     const parseNumEl = parseInt(numElements);
@@ -53,7 +55,7 @@ function createList(numElements) {
 
 export default function Home({ apiUrl }) {
     const [fileName, setFileName] = useState('');
-    const [imageSource, setImageSource] = useState('https://bit.ly/sage-adebayo');
+    const [imageSource, setImageSource] = useState('https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg');
     const [title, setTitle] = useState('');
     const [slideType, setSlideType] = useState('CHEVRON');
     // List
@@ -62,35 +64,26 @@ export default function Home({ apiUrl }) {
         {
             heading: 'Heading 1',
             subheading: 'Subheading 1',
-            iconName: 'https://bit.ly/sage-adebayo',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
         },
         {
             heading: 'Heading 2',
             subheading: 'Subheading 2',
-            iconName: 'https://bit.ly/sage-adebayo',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
         },
         {
             heading: 'Heading 3',
             subheading: 'Subheading 3',
-            iconName: 'https://bit.ly/sage-adebayo',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
         },
         {
             heading: 'Heading 4',
             subheading: 'Subheading 4',
-            iconName: 'https://bit.ly/sage-adebayo',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
         },
     ]);
     const MIN_CHEVRON_ITEM = 4;
     const MAX_CHEVRON_ITEM = 6;
-
-    // const handleTableDataChange = (newValue, indexRow, indexCol) => {
-    //     setTableData((prevState) => {
-    //         const newState = [...prevState];
-    //         newState[indexRow][indexCol] = newValue;
-    //         return newState;
-    //     });
-    //     console.log(tableData);
-    // };
 
     const handleChevronDataChange = (newValue, itemChangedEnum, index) => {
         if (itemChangedEnum === 0) {
@@ -141,16 +134,52 @@ export default function Home({ apiUrl }) {
         });
     };
 
+    // Gantt chart
+    const [ganttData, setGanttData] = useState([
+        {
+            activityName: 'Step 0',
+            eventName: 'Kick off', // optional
+            period: false, // default false
+            startPeriod: '', // From 1 to 12
+            endPeriod: '',
+            eventPeriod: '', // between startPeriod, endPeriod
+            eventColour: '#000000',
+        },
+        {
+            activityName: 'Step 1',
+            eventName: '', // optional
+            period: false,
+            startPeriod: '',
+            endPeriod: '',
+            eventPeriod: '', // between startPeriod, endPeriod
+            eventColour: '#000000',
+        },
+        {
+            activityName: 'Step 2',
+            eventName: 'Kick off', // optional
+            period: false,
+            startPeriod: '',
+            endPeriod: '',
+            eventPeriod: '', // between startPeriod, endPeriod
+            eventColour: '#000000',
+        },
+    ]);
+    const MIN_GANTT_ITEM = 3;
+    const MAX_GANTT_ITEM = 15;
+
     const handleSubmit = (event) => {
-        // alert(JSON.stringify({test: 'Test'}));
         event.preventDefault();
         // const toast = useToast();
-        const body = chevronData;
+        let body = chevronData;
+        if (slideType === 'GANTT') {
+            body = ganttData;
+        }
         const values = {
             title,
             slideType,
             body,
         };
+        // alert(JSON.stringify(values));
         axios.post(`${apiUrl}/pptx`, values)
             .then((response) => {
                 setFileName(response.data.fileName);
@@ -224,7 +253,7 @@ export default function Home({ apiUrl }) {
                         </FormControl>
                     </Box>
                     {/* Chevron Components */}
-                    {chevronData.map((item, index) => (
+                    {slideType === 'CHEVRON' ? chevronData.map((item, index) => (
                         <Box
                             lineHeight="1.2"
                             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
@@ -269,28 +298,105 @@ export default function Home({ apiUrl }) {
                                 />
                             </FormControl>
                         </Box>
-                    ))}
-                    <Flex>
-                        <Spacer />
-                        <Box mx="16px">
-                            <Button
-                                leftIcon={<DeleteIcon />}
-                                onClick={handleChevronDataDelete}
-                                isDisabled={chevronData.length <= MIN_CHEVRON_ITEM}
-                            >
-                                Delete Item
-                            </Button>
+                    )) : null}
+                    {slideType === 'CHEVRON' ?
+                        (
+                            <Flex>
+                                <Spacer />
+                                <Box mx="16px">
+                                    <Button
+                                        leftIcon={<DeleteIcon />}
+                                        onClick={handleChevronDataDelete}
+                                        isDisabled={chevronData.length <= MIN_CHEVRON_ITEM}
+                                    >
+                                        Delete Item
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <Button
+                                        leftIcon={<AddIcon />}
+                                        onClick={handleChevronDataAdd}
+                                        isDisabled={chevronData.length >= MAX_CHEVRON_ITEM}
+                                    >
+                                        Add Item
+                                    </Button>
+                                </Box>
+                            </Flex>
+                        ) : null}
+                    {/* Chevron Components (End) */}
+                    {/* Gantt Components (Start) */}
+                    {slideType === 'GANTT' ? ganttData.map((item, index) => (
+                        <Box
+                            lineHeight="1.2"
+                            transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                            border="1px"
+                            p="12px"
+                            borderRadius="6px"
+                            fontSize="14px"
+                            fontWeight="semibold"
+                            borderColor="#ccd0d5"
+                            color="#4b4f56"
+                            marginTop="16px"
+                            marginBottom="16px"
+                        >
+                            <FormControl>
+                                <FormLabel>{`Heading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Heading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Heading"
+                                    value={item.heading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 0, index)}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Subheading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Subheading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Subheading"
+                                    value={item.subheading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 1, index)}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Icon URL ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Icon URL ${index + 1}`}
+                                    type="text"
+                                    placeholder="Icon URL"
+                                    value={item.iconName}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index)}
+                                />
+                            </FormControl>
                         </Box>
-                        <Box>
-                            <Button
-                                leftIcon={<AddIcon />}
-                                onClick={handleChevronDataAdd}
-                                isDisabled={chevronData.length >= MAX_CHEVRON_ITEM}
-                            >
-                                Add Item
-                            </Button>
-                        </Box>
-                    </Flex>
+                    )) : null}
+                    {/* {slideType === 'GANTT' ?
+                        (
+                            <Flex>
+                                <Spacer />
+                                <Box mx="16px">
+                                    <Button
+                                        leftIcon={<DeleteIcon />}
+                                        onClick={handleChevronDataDelete}
+                                        isDisabled={chevronData.length <= MAX_GANTT_ITEM}
+                                    >
+                                        Delete Item
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <Button
+                                        leftIcon={<AddIcon />}
+                                        onClick={handleChevronDataAdd}
+                                        isDisabled={gantt.length >= MAX_GANTT_ITEM}
+                                    >
+                                        Add Item
+                                    </Button>
+                                </Box>
+                            </Flex>
+                        ) : null} */}
+                    {/* Gantt Component (End) */}
+                    
                     {/* List Component (Start) */}
                     {/* <Box>
                         <HStack spacing="200px">
