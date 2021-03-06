@@ -1,18 +1,20 @@
 // UI Library Components
 import React, { useState } from 'react';
 import {
-    Button, Heading, VStack, HStack, Box, useToast,
+    Button, Heading, VStack, HStack, Box,
     Table, Thead, Tbody, Tr, Th, Td, TableCaption, Input,
-    Flex, Spacer, Image, Center, Text
+    Flex, Spacer, Center, Text, Select, FormControl, FormLabel,
 } from '@chakra-ui/react';
-import { DownloadIcon, RepeatIcon, AddIcon } from '@chakra-ui/icons';
+import {
+    DownloadIcon, RepeatIcon, AddIcon, DeleteIcon,
+} from '@chakra-ui/icons';
 
 // HTTP Request
 import axios from 'axios';
 import handleDownload from '../utils/handleDownload';
 
 // Custom Components
-import { EditValue, InputNumber, ImageSlider, Card } from '../components';
+import { EditValue, ImageSlider, Card } from '../components';
 
 function createList(numElements) {
     const parseNumEl = parseInt(numElements);
@@ -52,22 +54,99 @@ function createList(numElements) {
 }
 
 export default function Home({ apiUrl }) {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [fileName, setFileName] = useState('');
-    const [rowNumber, setRowNumber] = useState(1);
-    const [colNumber, setColNumber] = useState(1);
-    const [listElement, setListElement] = useState(3);
-    const [tableData, setTableData] = useState([[1,2,3,4,5], [6,7,8,9,10]]);
+    const [imageSource, setImageSource] = useState('https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg');
+    const [title, setTitle] = useState('');
+    const [slideType, setSlideType] = useState('CHEVRON');
+    // List
+    // const [listElement, setListElement] = useState(3);
+    const [chevronData, setChevronData] = useState([
+        {
+            heading: 'Heading 1',
+            subheading: 'Subheading 1',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+        },
+        {
+            heading: 'Heading 2',
+            subheading: 'Subheading 2',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+        },
+        {
+            heading: 'Heading 3',
+            subheading: 'Subheading 3',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+        },
+        {
+            heading: 'Heading 4',
+            subheading: 'Subheading 4',
+            iconName: 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg',
+        },
+    ]);
+    const MIN_CHEVRON_ITEM = 4;
+    const MAX_CHEVRON_ITEM = 6;
+
+    const handleChevronDataChange = (newValue, itemChangedEnum, index) => {
+        if (itemChangedEnum === 0) {
+            // Heading change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].heading = newValue;
+                return newState;
+            });
+        } else if (itemChangedEnum === 1) {
+            // Subheading change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].subheading = newValue;
+                return newState;
+            });
+        } else {
+            // Icon Name change
+            setChevronData((prevState) => {
+                const newState = [...prevState];
+                newState[index].iconName = newValue;
+                return newState;
+            });
+        }
+    };
+
+    const handleChevronDataAdd = () => {
+        const newItem = {
+            heading: '',
+            subheading: '',
+            iconName: '',
+        };
+        setChevronData((prevState) => {
+            if (prevState.length < MAX_CHEVRON_ITEM) {
+                return [...prevState, newItem];
+            }
+            return prevState;
+        });
+    };
+
+    const handleChevronDataDelete = () => {
+        setChevronData((prevState) => {
+            const newState = [...prevState];
+            if (newState.length > MIN_CHEVRON_ITEM) {
+                newState.pop();
+            }
+            return newState;
+        });
+    };
 
     const handleSubmit = (event) => {
-        // alert(JSON.stringify({test: 'Test'}));
         event.preventDefault();
         // const toast = useToast();
+        const body = chevronData;
+        // if (slideType === 'GANTT') {
+        //     body = ganttData;
+        // }
         const values = {
-            firstName,
-            lastName,
+            title,
+            slideType,
+            body,
         };
+        // alert(JSON.stringify(values));
         axios.post(`${apiUrl}/pptx`, values)
             .then((response) => {
                 setFileName(response.data.fileName);
@@ -86,6 +165,7 @@ export default function Home({ apiUrl }) {
 
     return (
         <form onSubmit={handleSubmit}>
+            {/* HEADER SECTION */}
             <Flex borderBottom="1px" borderBottomColor="gray.200">
                 <Box p={4}>
                     <Heading>Fiat Lux</Heading>
@@ -101,88 +181,118 @@ export default function Home({ apiUrl }) {
                     </Button>
                 </Box>
             </Flex>
+            {/* BODY SECTION */}
             <Flex>
+                {/* LEFT SIDE - LIST OF SLIDES */}
                 <Box w={1 / 6} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
                     <Center>
                         <Text fontSize="lg" fontWeight="bold">Slides</Text>
                     </Center>
                     <Center m="4px">
-                        <Button leftIcon={<AddIcon />} size="sm">Add Slide</Button>
+                        <Button leftIcon={<AddIcon />} size="sm" isDisabled>Add Slide</Button>
                     </Center>
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 1" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 2" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 3" />
-                    <Card imageSource="https://bit.ly/sage-adebayo" text="Slide 4" />
+                    <Card imageSource={imageSource} text="Slide 1" />
                 </Box>
-                <Box w={2 / 3} p={4} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
-                    <Input
-                        label="First Name"
-                        type="text"
-                        placeholder="Albert"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <Input
-                        label="Last Name"
-                        type="text"
-                        placeholder="Darmawan"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <Box>
-                        <HStack>
-                            <Box w="100%" fontWeight="semibold">
-                                Table
-                            </Box>
-                            <VStack>
-                                <Box>
-                                    <h3>Row</h3>
-                                </Box>
-                                <InputNumber
-                                    value={rowNumber}
-                                    onChange={(value) => setRowNumber(value)}
-                                    min={1}
-                                    max={20}
-                                />
-                            </VStack>
-                            <VStack>
-                                <Box>
-                                    <h3>Column</h3>
-                                </Box>
-                                <InputNumber
-                                    value={colNumber}
-                                    onChange={(value) => setColNumber(value)}
-                                    min={1}
-                                    max={20}
-                                />
-
-                            </VStack>
-                        </HStack>
-                        {/* <Table variant="striped" colorScheme="teal" size="md">
-                            <TableCaption>Customise your table</TableCaption>
-                            <Thead>
-                                <Tr>
-                                    <Th></Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {tableData.map((itemRow, indexRow) => (
-                                    <Tr>
-                                        {
-                                            tableData[indexRow].map((itemCol, indexCol) => (
-                                                <Td>
-                                                    <EditValue
-                                                        initValue="Value"
-                                                    />
-                                                </Td>
-                                            ))
-                                        }
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table> */}
+                {/* MIDDLE - SLIDES DATA */}
+                <Box w={2 / 3} p={8} borderRight="1px" borderRightColor="gray.200" overflowY="scroll" height="90vh">
+                    {/* Title Component */}
+                    <FormControl>
+                        <FormLabel>Title</FormLabel>
+                        <Input
+                            label="Title"
+                            type="text"
+                            placeholder="Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </FormControl>
+                    {/* Slide Type Component */}
+                    <Box marginTop="16px" marginBottom="16px">
+                        <FormControl>
+                            <FormLabel>Slide Type</FormLabel>
+                            <Select
+                                value={slideType}
+                                onChange={(event) => setSlideType(event.target.value)}
+                            >
+                                <option value="CHEVRON">Chevron</option>
+                                <option value="GANTT">Gantt Chart</option>
+                            </Select>
+                        </FormControl>
                     </Box>
-                    <Box>
+                    {/* Chevron Components */}
+                    {slideType === 'CHEVRON' ? chevronData.map((item, index) => (
+                        <Box
+                            lineHeight="1.2"
+                            transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                            border="1px"
+                            p="12px"
+                            borderRadius="6px"
+                            fontSize="14px"
+                            fontWeight="semibold"
+                            borderColor="#ccd0d5"
+                            color="#4b4f56"
+                            marginTop="16px"
+                            marginBottom="16px"
+                        >
+                            <FormControl>
+                                <FormLabel>{`Heading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Heading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Heading"
+                                    value={item.heading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 0, index)}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Subheading ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Subheading ${index + 1}`}
+                                    type="text"
+                                    placeholder="Subheading"
+                                    value={item.subheading}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 1, index)}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>{`Icon URL ${index + 1}`}</FormLabel>
+                                <Input
+                                    label={`Icon URL ${index + 1}`}
+                                    type="text"
+                                    placeholder="Icon URL"
+                                    value={item.iconName}
+                                    onChange={(e) => handleChevronDataChange(e.target.value, 2, index)}
+                                />
+                            </FormControl>
+                        </Box>
+                    )) : null}
+                    {slideType === 'CHEVRON' ?
+                        (
+                            <Flex>
+                                <Spacer />
+                                <Box mx="16px">
+                                    <Button
+                                        leftIcon={<DeleteIcon />}
+                                        onClick={handleChevronDataDelete}
+                                        isDisabled={chevronData.length <= MIN_CHEVRON_ITEM}
+                                    >
+                                        Delete Item
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <Button
+                                        leftIcon={<AddIcon />}
+                                        onClick={handleChevronDataAdd}
+                                        isDisabled={chevronData.length >= MAX_CHEVRON_ITEM}
+                                    >
+                                        Add Item
+                                    </Button>
+                                </Box>
+                            </Flex>
+                        ) : null}
+                    {/* Chevron Components (End) */}
+                    {/* List Component (Start) */}
+                    {/* <Box>
                         <HStack spacing="200px">
                             <Box fontWeight="semibold">
                                 List
@@ -210,14 +320,15 @@ export default function Home({ apiUrl }) {
                     </Box>
                     <Box p={4}>
                         {createList(listElement)}
-                    </Box>
-
+                    </Box> */}
+                    {/* List Component (End) */}
                 </Box>
+                {/* RIGHT SIDE - PREVIEW */}
                 <Box w={2 / 6} p={4}>
                     <Center>
                         <Text fontSize="lg" fontWeight="bold">Preview</Text>
                     </Center>
-                    <ImageSlider images={['https://bit.ly/sage-adebayo', 'https://bit.ly/dan-abramov', 'https://bit.ly/sage-adebayo']} />
+                    <ImageSlider images={[imageSource]} />
                     <Center>
                         <Box p={16}>
                             {fileName !== '' ? <Button rightIcon={<DownloadIcon />} colorScheme="teal" onClick={() => handleDownload(fileName)}>Download PPTX</Button> : null}

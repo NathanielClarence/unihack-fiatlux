@@ -4,7 +4,7 @@ import {
 } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
 
-const EditValue = ({ initValue }) => {
+const EditValue = ({ ...restProps }) => {
     function EditableControls({
         isEditing, onSubmit, onCancel, onEdit,
     }) {
@@ -23,9 +23,9 @@ const EditValue = ({ initValue }) => {
     return (
         <Editable
             textAlign="center"
-            defaultValue={initValue}
             isPreviewFocusable={false}
             submitOnBlur={false}
+            {...restProps}
         >
             {(props) => (
                 <>
