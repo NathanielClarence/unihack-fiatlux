@@ -323,37 +323,6 @@ export default function Home({ apiUrl }) {
                             </Flex>
                         ) : null}
                     {/* Chevron Components (End) */}
-                    {/* List Component (Start) */}
-                    {/* <Box>
-                        <HStack spacing="200px">
-                            <Box fontWeight="semibold">
-                                List
-                            </Box>
-                            <VStack>
-                                <Box w="100%" fontWeight="semibold">
-                                    Title:
-                                </Box>
-                                <EditValue
-                                    initValue="Insert title here"
-                                />
-                            </VStack>
-                            <VStack>
-                                <Box w="100%" fontWeight="semibold">
-                                    Number of Element:
-                                </Box>
-                                <InputNumber
-                                    value={listElement}
-                                    onChange={(value) => setListElement(value)}
-                                    min={3}
-                                    max={5}
-                                />
-                            </VStack>
-                        </HStack>
-                    </Box>
-                    <Box p={4}>
-                        {createList(listElement)}
-                    </Box> */}
-                    {/* List Component (End) */}
                 </Box>
                 {/* RIGHT SIDE - PREVIEW */}
                 <Box w={2 / 6} p={4}>
