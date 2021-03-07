@@ -533,15 +533,27 @@ export default function Home({ apiUrl }) {
                                         <Box p={2}>
                                             <FormControl>
                                                 <FormLabel>Event Week</FormLabel>
+                                                {console.log('period: ', item.startPeriod)}
                                                 <Select
                                                     isRequired
                                                     placeholder="Select event week"
                                                     value={item.eventPeriod}
                                                     onChange={(e) => handleGanttDataChange(e.target.value, 5, index)}
                                                 >
-                                                    {startPeriodSelection.map((element) => (
-                                                        <option key={element.toString()}>{element}</option>
-                                                    ))}
+                                                    {
+                                                        item.startPeriod === '' ? (
+                                                            startPeriodSelection
+                                                                .map((element) => (
+                                                                    <option key={element.toString()}>{element}</option>
+                                                                ))
+                                                        ) : (
+                                                            startPeriodSelection
+                                                                    .filter((cur) => cur === parseInt(item.startPeriod) - 1 || cur === parseInt(item.endPeriod) + 1)
+                                                                .map((element) => (
+                                                                    <option key={element.toString()}>{element}</option>
+                                                                ))
+                                                        )
+                                                    }
                                                 </Select>
                                             </FormControl>
                                         </Box>
